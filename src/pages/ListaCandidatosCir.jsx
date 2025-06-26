@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  FormControl, InputLabel, Select, MenuItem,
   Container, Typography, Table, TableHead, TableBody, TableRow,
   TableCell, Paper, IconButton, Dialog, DialogTitle,
   DialogContent, DialogActions, Button, TextField
@@ -13,10 +14,30 @@ export default function ListaCandidatosCir() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({});
   const [editId, setEditId] = useState(null);
-const navigate = useNavigate();
+  const [departamentos, setDepartamentos] = useState([]);
+  const [circunscripciones, setCircunscripciones] = useState([]);
+  const navigate = useNavigate();
+
+  const cargarDepartamentos = async () => {
+    const { data } = await api.get('/mesas/departamentos');
+    setDepartamentos(data);
+  };
+
+  const cargarCircunscripciones = async (idDepartamento) => {
+    const { data } = await api.get(`/mesas/circunscripciones/${idDepartamento}`);
+    setCircunscripciones(data);
+  };
+
   useEffect(() => {
     cargar();
+    cargarDepartamentos();
   }, []);
+
+  useEffect(() => {
+    if (form.departamento) {
+      cargarCircunscripciones(form.departamento);
+    }
+  }, [form.departamento]);
 
   const cargar = async () => {
     const { data } = await api.get('/candidatos-cir');
@@ -36,8 +57,20 @@ const navigate = useNavigate();
     setOpen(true);
   };
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = async (e) => {
+    const { name, value } = e.target;
+
+    if (name === "departamento") {
+      const deptoId = parseInt(value);
+      await cargarCircunscripciones(deptoId);
+      setForm((prev) => ({
+        ...prev,
+        departamento: deptoId,
+        circunscripcion: '' // limpiar
+      }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const guardarCambios = async () => {
@@ -53,13 +86,13 @@ const navigate = useNavigate();
       </Typography>
 
       <Button
-  variant="contained"
-  color="primary"
-  sx={{ mt: 2 }}
-  onClick={() => navigate('/candidatos/register_candidatos')}
->
-  Registrar Candidato
-</Button>
+        variant="contained"
+        color="primary"
+        sx={{ mt: 2 }}
+        onClick={() => navigate('/candidatos/register_candidatos')}
+      >
+        Registrar Candidato
+      </Button>
 
       <Paper>
         <Table>
@@ -99,8 +132,35 @@ const navigate = useNavigate();
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Editar Candidato</DialogTitle>
         <DialogContent>
-          <TextField name="departamento" label="Departamento" fullWidth margin="dense" value={form.departamento || ''} onChange={handleChange} />
-          <TextField name="circunscripcion" label="Circunscripción" fullWidth margin="dense" value={form.circunscripcion || ''} onChange={handleChange} />
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Departamento</InputLabel>
+            <Select
+              name="departamento"
+              value={form.departamento || ''}
+              label="Departamento"
+              onChange={handleChange}
+              required
+            >
+              {departamentos.map((d) => (
+                <MenuItem key={d.id} value={d.id}>{d.nombre}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Circunscripción</InputLabel>
+            <Select
+              name="circunscripcion"
+              value={form.circunscripcion || ''}
+              label="Circunscripción"
+              onChange={handleChange}
+              required
+            >
+              {circunscripciones.map((c) => (
+                <MenuItem key={c} value={c}>{c}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <TextField name="nombreCandidato" label="Nombre Candidato" fullWidth margin="dense" value={form.nombreCandidato || ''} onChange={handleChange} />
           <TextField name="ciCandidato" label="CI Candidato" fullWidth margin="dense" value={form.ciCandidato || ''} onChange={handleChange} />
           <TextField name="celularCandidato" label="Celular Candidato" fullWidth margin="dense" value={form.celularCandidato || ''} onChange={handleChange} />

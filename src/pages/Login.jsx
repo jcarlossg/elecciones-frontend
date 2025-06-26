@@ -21,7 +21,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate('/');
+      navigate('/login');
     }
   }, [navigate]);
 

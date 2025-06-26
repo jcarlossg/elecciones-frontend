@@ -6,63 +6,106 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn, logout, getUserRoles } from '../utils/auth';
 import Box from '@mui/material/Box';
+import { Stack } from '@mui/material';
+
+// Íconos
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import GroupIcon from '@mui/icons-material/Group';
+import HowToVoteIcon from '@mui/icons-material/HowToVote';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 
 export default function Header() {
-    const navigate = useNavigate();
-    const roles = getUserRoles();
+  const navigate = useNavigate();
+  const roles = getUserRoles();
 
-    const handleLogout = () => {
-        logout();
-        navigate('/login');
-    };
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
-    return (
-        <AppBar position="static">
-            <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    Elecciones - Frontend
-                </Typography>
+  return (
+    <AppBar position="static" sx={{ backgroundColor: '#1a237e' }}>
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Elecciones 2025
+        </Typography>
 
-                {isLoggedIn() ? (
-                    <Box>
-                        {roles.includes('ROLE_ADMIN') && (
-                            <>
-                                <Button color="inherit" onClick={() => navigate('/admin')}>
-                                    Panel Admin
-                                </Button>
+        {isLoggedIn() ? (
+          <Stack direction="row" spacing={1}>
+            {roles.includes('ROLE_ADMIN') && (
+              <>
+                <Button
+                  startIcon={<AdminPanelSettingsIcon />}
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => navigate('/admin')}
+                >
+                  Panel Admin
+                </Button>
 
-                                <Button color="inherit" onClick={() => navigate('/usuarios')}>
-                                    Usuarios
-                                </Button>
+                <Button
+                  startIcon={<GroupIcon />}
+                  variant="contained"
+                  color="info"
+                  onClick={() => navigate('/usuarios')}
+                >
+                  Usuarios
+                </Button>
 
-                                 <Button color="inherit" onClick={() => navigate('/candidatos')}>
-                                    Candidatos
-                                </Button>
+                <Button
+                  startIcon={<HowToVoteIcon />}
+                  variant="contained"
+                  color="success"
+                  onClick={() => navigate('/candidatos')}
+                >
+                  Candidatos
+                </Button>
 
-                                 <Button color="inherit" onClick={() => navigate('/asignacion')}>
-                                    Asignacion de Mesas
-                                </Button>
-                            </>
-                        )}
-                        {roles.includes('ROLE_USER') && (
+                <Button
+                  startIcon={<AssignmentIcon />}
+                  variant="contained"
+                  color="warning"
+                  onClick={() => navigate('/asignacion')}
+                >
+                  Asignación
+                </Button>
+              </>
+            )}
 
-                            <>
-                                <Button color="inherit" onClick={() => navigate('/user')}>
-                                    Panel Usuario
-                                </Button>
-                            </>
+            {roles.includes('ROLE_USER') && (
+              <Button
+                startIcon={<PersonIcon />}
+                variant="contained"
+                color="primary"
+                onClick={() => navigate('/user')}
+              >
+                Panel Usuario
+              </Button>
+            )}
 
-                        )}
-                        <Button color="inherit" onClick={handleLogout}>
-                            Cerrar sesión
-                        </Button>
-                    </Box>
-                ) : (
-                    <Button color="inherit" onClick={() => navigate('/login')}>
-                        Login
-                    </Button>
-                )}
-            </Toolbar>
-        </AppBar>
-    );
+            <Button
+              startIcon={<LogoutIcon />}
+              variant="contained"
+              color="error"
+              onClick={handleLogout}
+            >
+              Cerrar sesión
+            </Button>
+          </Stack>
+        ) : (
+          <Button
+            startIcon={<LoginIcon />}
+            variant="contained"
+            color="success"
+            onClick={() => navigate('/login')}
+          >
+            Login
+          </Button>
+        )}
+      </Toolbar>
+    </AppBar>
+  );
 }

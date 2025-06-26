@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-//const API_URL = 'http://localhost:8080/api'; // Ajusta URL según backend
+//const API_URL = 'http://localhost:9080/api'; // Ajusta URL según backend
 const API_URL = 'https://elecciones-r62h.onrender.com';
 // Instancia axios con baseURL
 const api = axios.create({
