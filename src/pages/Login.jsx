@@ -30,7 +30,7 @@ export default function Login() {
   setError(false);
   setMensaje('');
   try {
-    const { data } =await api.post('/api/auth/login', { username, password });
+    const { data } = await api.post('/auth/login', { username, password });
     saveToken(data.token);
     setMensaje('¡Login exitoso!');
     navigate('/');
@@ -53,7 +53,7 @@ export default function Login() {
     <Container maxWidth="sm">
       <Paper elevation={3} sx={{ p: 4, mt: 8 }}>
         <Typography variant="h4" align="center" gutterBottom>
-          Iniciar Sesióne
+          Iniciar Sesión
         </Typography>
 
         {mensaje && (
