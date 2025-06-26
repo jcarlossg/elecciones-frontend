@@ -53,7 +53,7 @@ export default function Login() {
     <Container maxWidth="sm">
       <Paper elevation={3} sx={{ p: 4, mt: 8 }}>
         <Typography variant="h4" align="center" gutterBottom>
-          Iniciar Sesiónes 
+          Iniciar Sesióne
         </Typography>
 
         {mensaje && (
