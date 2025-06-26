@@ -26,19 +26,28 @@ export default function Login() {
   }, [navigate]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(false);
-    setMensaje('');
-    try {
-      const { data } = await api.post('/auth/login', { username, password });
-      saveToken(data.token);
-      setMensaje('¡Login exitoso!');
-      navigate('/');
-    } catch {
-      setError(true);
-      setMensaje('Usuario o contraseña incorrectos');
+  e.preventDefault();
+  setError(false);
+  setMensaje('');
+  try {
+    const { data } = await api.post('/auth/login', { username, password });
+    saveToken(data.token);
+    setMensaje('¡Login exitoso!');
+    navigate('/');
+  } catch (error) {
+    setError(true);
+    if (error.response) {
+      // Error con respuesta del servidor
+      setMensaje(`Error ${error.response.status}: ${error.response.data}`);
+    } else if (error.request) {
+      // No hubo respuesta del servidor
+      setMensaje('No se recibió respuesta del servidor.');
+    } else {
+      // Otro error
+      setMensaje('Error en la solicitud: ' + error.message);
     }
-  };
+  }
+};
 
   return (
     <Container maxWidth="sm">
