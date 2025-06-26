@@ -27,7 +27,7 @@ export default function ListaUsuarios() {
 
     const cargarUsuarios = async () => {
         try {
-            const { data } = await api.get('/admin/usuarios');
+            const { data } = await api.get('/api/admin/usuarios');
             console.log(data);
             setUsuarios(data);
             setError('');
