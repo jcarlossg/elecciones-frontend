@@ -30,7 +30,7 @@ export default function Login() {
   setError(false);
   setMensaje('');
   try {
-    const { data } = await api.post('/auth/login', { username, password });
+    const { data } =await api.post('/api/auth/login', { username, password });
     saveToken(data.token);
     setMensaje('¡Login exitoso!');
     navigate('/');
