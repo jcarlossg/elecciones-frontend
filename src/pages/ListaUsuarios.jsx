@@ -20,7 +20,7 @@ export default function ListaUsuarios() {
 
     useEffect(() => {
         cargarUsuarios();
-        api.get('/admin/roles')
+        api.get('/api/admin/roles')
             .then(res => setRolesDisponibles(res.data))
             .catch(() => setRolesDisponibles(['ADMIN', 'USER'])); // fallback
     }, []);
