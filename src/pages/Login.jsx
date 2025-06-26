@@ -47,7 +47,7 @@ export default function Login() {
       setMensaje('Error en la solicitud: ' + error.message);
     }
   }
-};
+}; 
 
   return (
     <Container maxWidth="sm">
