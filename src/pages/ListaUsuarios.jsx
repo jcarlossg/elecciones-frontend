@@ -41,7 +41,7 @@ export default function ListaUsuarios() {
     const eliminarUsuario = async (id) => {
         if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
             try {
-                await api.delete(`/admin/usuarios/${id}`);
+                await api.delete(`/api/admin/usuarios/${id}`);
                 cargarUsuarios();
             } catch {
                 alert('Error al eliminar usuario.');
@@ -57,7 +57,7 @@ export default function ListaUsuarios() {
 
     const guardarRoles = async () => {
         try {
-            await api.put(`/admin/usuarios/${usuarioEditId}/roles`, rolesEdit);
+            await api.put(`/api/admin/usuarios/${usuarioEditId}/roles`, rolesEdit);
             setOpenDialog(false);
             cargarUsuarios();
         } catch {
