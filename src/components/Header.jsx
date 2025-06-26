@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { isLoggedIn, logout, getUserRoles } from '../utils/auth';
-import Box from '@mui/material/Box';
+
 import { Stack } from '@mui/material';
 
 // Íconos
