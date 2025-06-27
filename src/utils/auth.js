@@ -9,7 +9,7 @@ export function getToken() {
 
 export function logout() {
   localStorage.removeItem('token');
-   localStorage.removeItem('roles');
+  localStorage.removeItem('roles');
   window.location.reload();
 }
 
