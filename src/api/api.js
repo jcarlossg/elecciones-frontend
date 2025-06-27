@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { logout } from '../utils/auth';
 
-const API_URL = 'http://localhost:8080/api'; // Ajusta URL según backend
-//const API_URL = 'https://elecciones-r62h.onrender.com/api/';
+//const API_URL = 'http://localhost:8080/api'; // Ajusta URL según backend
+const API_URL = 'https://elecciones-r62h.onrender.com/api/';
 // Instancia axios con baseURL
 const api = axios.create({
   baseURL: API_URL,
